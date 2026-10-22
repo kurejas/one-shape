@@ -2227,14 +2227,7 @@ function prune(t) {
 }
 function frame(now) {
   requestAnimationFrame(frame);
-  if (!DEBUG && !MUTE && !DEMO_STILL) {
-    const c = AU.ctx, late = AU.touched && performance.now() - AU.touched > 1500;
-    const bad = AU.err || (late && (!c || c.state !== 'running' || !AU.ready));
-    if (bad) {
-      dbg.hidden = false;
-      dbg.textContent = `SOUND IS OFF: ${AU.err || (c ? c.state : 'no audio context')}${AU.engine ? ' · ' + AU.engine : ''}\nTap the screen again. If it stays off, check the volume and the ring/silent switch.`;
-    } else if (!dbg.hidden) dbg.hidden = true;
-  }
+  // no on-screen "sound is off" warning: the next tap simply tries again (the user asked for it never to show)
   anchorCheck();
   let t = appNow();
   if (t < lastApp) t = lastApp;
